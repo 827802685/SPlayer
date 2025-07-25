@@ -1,0 +1,21 @@
+{
+  "buildCommand": "pnpm run build",
+  "outputDirectory": "out/renderer",
+  "routes": [
+    {
+      "src": "/api/ttml/(.*)",
+      "dest": "https://lyrics.focalors.ltd/$1",
+      "status": 200
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "https://music-api.focalors.ltd/$1",
+      "status": 200
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html",
+      "status": 200
+    }
+  ]
+}
