@@ -2,11 +2,6 @@ import axios from "@/utils/request";
 import { siteSettings } from "@/stores";
 
 
-
-/**
- * 歌曲部分
- */
-
 /**
  * 获取指定音乐的详情
  * @param {string} ids - 要获取详情的音乐ID，多个ID用逗号分隔
@@ -95,27 +90,10 @@ export const getSongLyric = async (id) => {
  * @param {number} br - 码率, 默认设置了 999000 即最大码率, 如果要 320k 则可设置为 320000, 其他类推
  */
 export const getSongDownloadFromPyncmd = async (params) => {
-  const settings = siteSettings();
-  // 参数校验
-  if (!params?.id || !params?.br) {
-    throw new Error("Missing required parameters");
-  }
-
   // 参数处理
   const { id, br } = params;
   const encodedId = encodeURIComponent(id);
   const encodedBr = encodeURIComponent(br);
-
-  /*
-  if (import.meta.env["RENDERER_VITE_SITE_ROOT"] === "false" && settings.useCustomUNMServer) {
-    var unmurl = settings.unmServer;
-  } else if (import.meta.env["RENDERER_VITE_SITE_ROOT"] === "true" && !settings.useCustomUNMServer) {
-    var unmurl = "/api/unblock";
-  } else {
-    var unmurl = `${import.meta.env.VITE_UNM_API}`;
-  }
-  const url = `${unmurl}/ncmget?id=${encodedId}&br=${encodedBr}`;
-  */
   try {
     return axios({
       url: "/song/url/ncmget",
@@ -204,6 +182,8 @@ export const getMetingSongDownload = async (id, source) => {
   const metingApi = {
     "meting1": "https://music.cenguigui.cn/?type=url&id=",
     "meting2": "https://api.qijieya.cn/meting/?type=url&id=",
+    "meting3": "https://api.injahow.cn/meting/?type=url&id=",
+    "meting4": "https://api.moeyao.cn/meting/?type=url&id="
   };
   const url = metingApi[source] + id;
   return url;

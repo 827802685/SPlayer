@@ -180,7 +180,9 @@ const sourceOptions = ref([
   { label: '网易云音乐 (部分歌曲需登陆黑胶账号)', value: 'netease' },
   { label: 'GD音乐台', value: 'gd' },
   { label: '岑鬼鬼音乐API (meting)', value: 'meting1' },
-  { label: '祈杰音乐源 (meting)', value: 'meting2' }
+  { label: '祈杰音乐源 (meting)', value: 'meting2' },
+  { label: 'injahow(meting)', value: 'meting3' },
+  { label: '云海花瑶(meting)', value: 'meting4' },
 ])
 
 const selectedSource = ref('pyncmd'); // 默认选择pyncmd音源
@@ -206,7 +208,7 @@ const toSongDownload = async (song, lyric, tlyric) => {
         id: song?.id,
         br: selectedQuality.value
       });
-    } else if (selectedSource.value === 'meting1' || selectedSource.value === 'meting2') {
+    } else if (selectedSource.value.incluedes('meting')) {
       // meting 源直接返回下载 url
       var url = await getMetingSongDownload(song?.id, selectedSource.value);
       var result = { data: { url } };
