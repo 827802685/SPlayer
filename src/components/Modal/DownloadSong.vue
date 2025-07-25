@@ -208,7 +208,7 @@ const toSongDownload = async (song, lyric, tlyric) => {
         id: song?.id,
         br: selectedQuality.value
       });
-    } else if (selectedSource.value.incluedes('meting')) {
+    } else if (selectedSource.value.includes('meting')) {
       // meting 源直接返回下载 url
       var url = await getMetingSongDownload(song?.id, selectedSource.value);
       var result = { data: { url } };

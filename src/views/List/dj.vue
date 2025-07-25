@@ -206,7 +206,7 @@ import { siteData } from "@/stores";
 import { getDjDetail, getDjProgram, likeDj } from "@/api/dj";
 import { fuzzySearch } from "@/utils/helper";
 import { isLogin } from "@/utils/auth";
-import { getTimestampTime } from "@/utils/timeTools";
+import { getTimestampTime } from "@/utils/time.ts";
 import { playAllSongs } from "@/utils/Player";
 import debounce from "@/utils/debounce";
 import formatData from "@/utils/formatData";

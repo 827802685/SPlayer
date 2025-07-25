@@ -209,7 +209,7 @@ import { siteData } from "@/stores";
 import { getSongDetail } from "@/api/song";
 import { getAlbumDetail, likeAlbum } from "@/api/album";
 import { formatNumber, fuzzySearch } from "@/utils/helper";
-import { getTimestampTime } from "@/utils/timeTools";
+import { getTimestampTime } from "@/utils/time.ts";
 import { playAllSongs } from "@/utils/Player";
 import { isLogin } from "@/utils/auth";
 import debounce from "@/utils/debounce";

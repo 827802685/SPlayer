@@ -103,7 +103,7 @@
 <script setup>
 import { useRouter } from "vue-router";
 import { likeComment } from "@/api/comment";
-import { getCommentTime } from "@/utils/timeTools";
+import { getCommentTime } from "@/utils/time.ts";
 import { formatNumber } from "@/utils/helper";
 import { isLogin } from "@/utils/auth";
 import emojiData from "@/assets/emoji.json";

@@ -289,7 +289,7 @@ import { setCloudDel } from "@/api/cloud";
 import { addSongToPlayList } from "@/api/playlist";
 import { siteData, siteSettings, musicData, siteStatus } from "@/stores";
 import { initPlayer, fadePlayOrPause, addSongToNext } from "@/utils/Player";
-import { djFormatDate } from "@/utils/timeTools";
+import { djFormatDate } from "@/utils/time.ts";
 import SongDetail from '@/components/Modal/SongDetail.vue';
 
 const router = useRouter();

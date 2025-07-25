@@ -177,7 +177,7 @@ import { getHotComment } from "@/api/comment";
 import { addSongToNext, initPlayer, fadePlayOrPause } from "@/utils/Player";
 import { musicData, siteStatus, siteSettings } from "@/stores";
 import { formatNumber } from "@/utils/helper";
-// import { getLongTime } from "@/utils/timeTools";
+// import { getLongTime } from "@/utils/time.ts";
 import formatData from "@/utils/formatData";
 import { addSongToPlayList } from "@/api/playlist"
 import AddPlaylist from "@/components/Modal/AddPlaylist.vue";

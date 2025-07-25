@@ -352,7 +352,7 @@ import {
   setRate,
   processSpectrum,
 } from "@/utils/Player";
-import { getSongPlayTime } from "@/utils/timeTools";
+import { getSongPlayTime } from "@/utils/time.ts";
 import debounce from "@/utils/debounce";
 import SvgIcon from "@/components/Global/SvgIcon";
 import VueSlider from "vue-slider-component";

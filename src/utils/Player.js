@@ -4,7 +4,7 @@ import { getSongUrl, getSongLyric, songScrobble, getMusicNumUrlNew, getSongLyric
 import { getSongTTML } from "@/api/ttml";
 import { checkPlatform, getLocalCoverData, getBlobUrlFromUrl } from "@/utils/helper";
 import { decode as base642Buffer } from "@/utils/base64";
-import { getSongPlayTime } from "@/utils/timeTools";
+import { getSongPlayTime } from "@/utils/time.ts";
 import { getCoverGradient } from "@/utils/cover-color";
 import { isLogin } from "@/utils/auth";
 import { parseLyricsData, parseLocalLyric, parseTTMLToAMLL } from "@/utils/lyric.ts";

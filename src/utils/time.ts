@@ -24,92 +24,12 @@ export const getSongTime = (mss: number) => {
   return `${minutes}:${seconds}`;
 };
 
-// 秒转为时间
-export const secondsToTime = (seconds: number) => {
-  if (seconds < 3600) {
-    return dayjs.duration(seconds, "seconds").format("m:ss");
-  } else {
-    return dayjs.duration(seconds, "seconds").format("H:mm:ss");
-  }
-};
-
-// 毫秒转为时间
-export const msToTime = (milliseconds: number) => {
-  const dur = dayjs.duration(milliseconds, "milliseconds");
-  return milliseconds < 3600000 ? dur.format("mm:ss") : dur.format("H:mm:ss");
-};
 
 // 毫秒转为秒
 export const msToS = (milliseconds: number, decimalPlaces: number = 2): number => {
   return Number((milliseconds / 1000).toFixed(decimalPlaces));
 };
 
-/**
- * 格式化时间戳
- * @param {number|undefined} timestamp - 要格式化的时间戳（以毫秒为单位）。如果为 `null` 或 `0`，则返回空字符串。
- * @param {string} [format="YYYY-MM-DD"] - 可选的时间格式，默认格式为 "YYYY-MM-DD"。可传入任意 dayjs 支持的格式。
- * @returns {string} - 根据指定格式返回的日期字符串
- */
-export const formatTimestamp = (
-  timestamp: number | undefined,
-  format: string = "YYYY-MM-DD",
-): string => {
-  if (!timestamp) return "";
-  const date = dayjs(timestamp);
-  const currentYear = dayjs().year();
-  const year = date.year();
-  // 如果年份相同
-  if (year === currentYear) {
-    return date.format(format.replace("YYYY-", ""));
-  }
-  return date.format(format);
-};
-
-// 格式化评论时间戳
-export const formatCommentTime = (timestamp: number): string => {
-  const now = dayjs();
-  const diff = now.diff(dayjs(timestamp), "minute");
-  if (diff < 1) {
-    return "刚刚发布";
-  } else if (diff < 60) {
-    return `${diff}分钟前`;
-  } else if (diff < 1440) {
-    // 1天 = 24小时 * 60分钟
-    return `${Math.floor(diff / 60)}小时前`;
-  } else if (diff < 525600) {
-    // 1年约等于 525600分钟
-    return dayjs(timestamp).format("MM-DD HH:mm");
-  } else {
-    return dayjs(timestamp).format("YYYY-MM-DD HH:mm");
-  }
-};
-
-/**
- * 计算进度条移动的距离
- * @param {number} currentTime
- * @param {number} duration
- * @returns {number} 进度条移动的距离，精确到 0.01，最大为 100
- */
-export const calculateProgress = (currentTime: number, duration: number): number => {
-  if (duration === 0) return 0;
-
-  const progress = (currentTime / duration) * 100;
-  return Math.min(Math.round(progress * 100) / 100, 100);
-};
-
-/**
- * 根据进度和总时长反推当前时间
- * @param {number} progress 进度百分比，范围通常是0到100
- * @param {number} duration 总时长，单位为秒
- * @returns {number} 当前时间，单位为秒，精确到0.01秒
- */
-export const calculateCurrentTime = (progress: number, duration: number): number => {
-  // 确保在有效范围内
-  progress = Math.min(Math.max(progress, 0), 100);
-
-  const currentTime = (progress / 100) * duration;
-  return Math.round(currentTime * 100) / 100;
-};
 
 /**
  * 获取当前时间段的问候语
@@ -136,22 +56,97 @@ export const getGreetings = () => {
 };
 
 /**
- * 是否为当天的6点之前
- * @param timestamp 当前时间戳
+ * 获取时间戳对应的日期
+ * @param {number} mss - 时间戳
+ * @returns {string} - 日期字符串
  */
-export const isBeforeSixAM = (timestamp: number) => {
-  // 当天的早上 6 点
-  const sixAM = dayjs().startOf("day").add(6, "hour");
-  // 判断输入时间是否在六点之前
-  const inputTime = dayjs(timestamp);
-  return inputTime.isBefore(sixAM);
+export const getTimestampTime = (mss: any, showYear = true) => {
+  const date = new Date(parseInt(mss));
+  const y: number = date.getFullYear();
+  const m: any = `0${date.getMonth() + 1}`.slice(-2);
+  const d: any = `0${date.getDate()}`.slice(-2);
+  return showYear ? `${y}-${m}-${d}` : `${m}-${d}`;
 };
 
 /**
- * 将 ISO 8601 格式的时间字符串转换为本地时间
- * @param isoString - ISO 8601 格式的时间字符串
- * @returns
+ * 歌曲播放时间转换
+ * @param {number} num 歌曲播放时间，单位为秒
+ * @returns {string} 格式为 "mm:ss" 的字符串
  */
-export const convertToLocalTime = (isoString: string): string => {
-  return dayjs(isoString).format("YYYY-MM-DD HH:mm:ss");
+export const getSongPlayTime = (num) => {
+  const minutes = String(Math.floor(num / 60)).padStart(2, "0");
+  const seconds = String(Math.floor(num % 60)).padStart(2, "0");
+  return `${minutes}:${seconds}`;
+};
+
+/**
+ * 将评论时间戳转化为对应的时间格式
+ * @param {number} t - 时间戳，单位为毫秒
+ * @returns {string} - 转换后的时间字符串
+ */
+export const getCommentTime = (t) => {
+  // 获取当前 Unix 时间戳
+  const nowDate: any = new Date();
+  // 获取今天 23:59:59.999 时间戳
+  const todayLast = new Date(
+    nowDate.getFullYear(),
+    nowDate.getMonth(),
+    nowDate.getDate(),
+    23,
+    59,
+    59,
+    999,
+  ).getTime();
+  // 将传入的时间戳转换为 Date 对象
+  const userDate = new Date(Number(t));
+  // 获取评论时间的小时和分钟数，并进行补零处理
+  const UH = userDate.getHours() < 10 ? `0${userDate.getHours()}` : userDate.getHours();
+  const Um = userDate.getMinutes() < 10 ? `0${userDate.getMinutes()}` : userDate.getMinutes();
+  // 判断时间差
+  if (nowDate - t <= 60000) {
+    return "刚刚发布";
+  } else if (nowDate - t > 60000 && nowDate - t <= 3600000) {
+    const pastTimeUnix = nowDate - t;
+    const pastTime = new Date(Number(pastTimeUnix));
+    return `${pastTime.getMinutes()} 分钟前`;
+  } else if (todayLast - t > 3600000 && todayLast - t <= 86400000) {
+    return `${UH}:${Um}`;
+  } else if (nowDate.getFullYear() === userDate.getFullYear()) {
+    // 如果在今年，不显示年份
+    return `${userDate.getMonth() + 1}月${userDate.getDate()}日 ${UH}:${Um}`;
+  } else if (todayLast - t <= 172800000) {
+    return `昨天 ${UH}:${Um}`;
+  } else {
+    return `${userDate.getFullYear()}年${
+      userDate.getMonth() + 1
+    }月${userDate.getDate()}日 ${UH}:${Um}`;
+  }
+};
+
+/**
+ * 电台时间戳格式化
+ * @param {number} timestamp - 要格式化的时间戳（毫秒）
+ * @returns {string} - 格式化后的日期描述
+ */
+export const djFormatDate = (timestamp) => {
+  const now: any = new Date();
+  const targetDate: any = new Date(timestamp);
+  const timeDiff = now - targetDate;
+  const oneDay = 24 * 60 * 60 * 1000; // 一天的毫秒数
+  const daysDiff = Math.floor(timeDiff / oneDay);
+  // 数字补零
+  const formatNumber = (num) => {
+    return num < 10 ? `0${num}` : num;
+  };
+  if (daysDiff === 0) {
+    return "今日";
+  } else if (daysDiff === 1) {
+    return "昨日";
+  } else if (daysDiff <= 7) {
+    return `${daysDiff}天前`;
+  } else if (targetDate.getFullYear() === now.getFullYear() - 1) {
+    return `${targetDate.getFullYear()}-${formatNumber(targetDate.getMonth() + 1)}`;
+  } else {
+    return `${formatNumber(targetDate.getMonth() + 1)}-${formatNumber(targetDate.getDate())}`;
+  }
 };
