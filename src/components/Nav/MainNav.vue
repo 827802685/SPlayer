@@ -114,12 +114,12 @@ const router = useRouter();
 const status = siteStatus();
 const sitesettings = siteSettings();
 const { asideMenuCollapsed, searchInputFocus } = storeToRefs(status);
-const { showGithub, showSider, themeAutoCover } = storeToRefs(sitesettings);
+const { showGithub, showSider, themeAutoCover, showVersion } = storeToRefs(sitesettings);
 
 // 站点信息
 const siteVersion = packageJson.version;
 const siteTemp = import.meta.env.RENDERER_VITE_SITE_TITLE;
-const siteName = siteTemp + " v" + siteVersion;
+const siteName = siteTemp + (showVersion.value ? " v" + siteVersion : "");
 
 // 打开 GitHub
 const openGithub = () => {
@@ -128,11 +128,6 @@ const openGithub = () => {
 };
 
 const settingsRef = ref(null)
-const openSettings = () => {
-  if (settingsRef.value) {
-    settingsRef.value.showModal();
-  }
-};
 
 
 // 主菜单渲染

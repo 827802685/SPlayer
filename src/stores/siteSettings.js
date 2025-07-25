@@ -20,6 +20,7 @@ const useSiteSettingsStore = defineStore("siteSettings", {
       hiddenVipTags: false, // 隐藏 VIP 标签
       webFonts: "LXGW WenKai", // 网页字体
       fontBold: true, // 字体加粗
+      showVersion: false, // 显示版本号
       // 主题部分
       themeType: "dark",
       themeAuto: false,

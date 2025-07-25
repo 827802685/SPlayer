@@ -3,6 +3,13 @@
     <n-h3 prefix="bar"> 其他 </n-h3>
     <n-card class="set-item">
       <div class="name">
+        显示版本号
+        <n-text class="tip">将会在左上角显示当前版本号, 刷新后或重启软件生效</n-text>
+      </div>
+      <n-switch v-model:value="showVersion" :round="false" />
+    </n-card>
+    <n-card class="set-item">
+      <div class="name">
         使用真实 IP 地址
         <n-text class="tip">十分推荐开启的功能，尤其是用国外服务器或部署平台的网易云音乐API, 在海外或部分地区可能会受到限制，可开启此处解决</n-text>
       </div>
@@ -162,7 +169,7 @@ import debounce from "@/utils/debounce";
 
 const status = siteStatus();
 const settings = siteSettings();
-const { themeAuto, loadSize, showGithub, proxyProtocol, proxyServe, proxyPort, useRealIP, realIP, useCustomNCMServer, ncmServer, useCustomUNMServer, unmServer } =
+const { themeAuto, loadSize, showGithub, proxyProtocol, proxyServe, proxyPort, useRealIP, realIP, useCustomNCMServer, ncmServer, useCustomUNMServer, unmServer, showVersion } =
   storeToRefs(settings);
 
 // 程序重置
