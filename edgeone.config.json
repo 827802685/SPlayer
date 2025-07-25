@@ -1,6 +1,7 @@
 {
   "buildCommand": "pnpm run build",
   "outputDirectory": "out/renderer",
+  "npmRegistry": "https://registry.npmmirror.com",
   "routes": [
     {
       "src": "/api/ttml/(.*)",
