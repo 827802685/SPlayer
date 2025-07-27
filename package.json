@@ -33,7 +33,7 @@
     "@electron-toolkit/preload": "^3.0.2",
     "@electron-toolkit/utils": "^3.0.0",
     "@material/material-color-utilities": "^0.2.7",
-    "@neteaseapireborn/api": "^4.28.19",
+    "@neteaseapireborn/api": "^4.28.20",
     "@pixi/app": "^7.4.3",
     "@pixi/core": "^7.4.3",
     "@pixi/display": "^7.4.3",
