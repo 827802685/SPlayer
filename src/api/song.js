@@ -188,32 +188,3 @@ export const getMetingSongDownload = async (id, source) => {
   const url = metingApi[source] + id;
   return url;
 }
-
-/* ARCHIVED CODES */
-/**
- * 网易云解灰
- * @param {number} id - 要替换播放链接的音乐ID
- */
-/*
-export const getMusicNumUrl = async (id,source="pyncmd,qq,kuwo,migu,kugou") => {
-  const settings = siteSettings();
-  if (import.meta.env["RENDERER_VITE_SITE_ROOT"] === "false" && settings.useCustomUNMServer) {
-    var unmurl = settings.unmServer;
-  } else if (import.meta.env["RENDERER_VITE_SITE_ROOT"] === "true" && !settings.useCustomUNMServer) {
-    var unmurl = "/api/song/url";
-  } else {
-    var unmurl = `${import.meta.env.VITE_UNM_API}`;
-  }
-  const url = `${unmurl}/match?id=${id}&server=${source}`;
-  const response = await fetch(url, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  if (!response.ok) {
-    return Promise.reject(new Error());
-  }
-  return await response.json();
-};
-*/

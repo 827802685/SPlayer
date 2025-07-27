@@ -207,20 +207,8 @@ const getFromUnblockMusic = async (data, status, playNow) => {
         };
       }
     } catch (error) {
-      console.log("getMusicNumUrl失败，尝试使用Other源：", error);
+      console.log("getMusicNumUrl失败：", error);
     };
-    /*
-    if (!musicUrl) {
-      try {
-        let Otherget = await getSongOtherUrl(data.name, data.artists);
-        if (Otherget?.code == 200 && Otherget?.data) {
-          musicUrl = Otherget.data.url;
-        }
-      } catch (error) {
-        console.log("getSongOtherUrl获取失败：", error);
-      }
-    }
-    */
     console.log(musicUrl);
     if (musicUrl) {
       // 将 http 替换为 https
