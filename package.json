@@ -32,6 +32,7 @@
     "@applemusic-like-lyrics/vue": "^0.1.5",
     "@electron-toolkit/preload": "^3.0.2",
     "@electron-toolkit/utils": "^3.0.0",
+    "@jridgewell/set-array": "^1.2.1",
     "@material/material-color-utilities": "^0.2.7",
     "@neteaseapireborn/api": "^4.28.20",
     "@pixi/app": "^7.4.3",
