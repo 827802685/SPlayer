@@ -212,7 +212,7 @@ const getFromUnblockMusic = async (data, status, playNow) => {
     console.log(musicUrl);
     if (musicUrl) {
       // 将 http 替换为 https
-      musicUrl = musicUrl.replace(/^http:/, "https:");
+      if (!checkPlatform.electron()) { musicUrl = musicUrl.replace(/^http:/, "https:") }
       $message.info("获取链接成功, 正在播放");
       status.playUseOtherSource = true;
       if (playNow) status.playState = true;

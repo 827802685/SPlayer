@@ -120,7 +120,7 @@
                         }"
                         round
                       >
-                        解灰模式
+                        其他音源
                       </n-tag>
                     </template>
                     <div
@@ -131,7 +131,7 @@
                       }"
                       class="title-tip"
                     >
-                      <span>已为您使用PYNCMD音源，受限歌曲随心播</span>
+                      <span>已经使用UnblockNeteaseMusic的第三方音源, 可能会出现匹配不准确的问题</span>
                     </div>
                   </n-popover>
                 </div>
