@@ -199,10 +199,11 @@ const sourceOptions = ref([
   { label: '解灰专用源 (有几率匹配不成功)', value: 'unblock' },
   { label: 'GD音乐台', value: 'gd' },
   { label: '网易云音乐工具箱', value: 'python1' },
-  { label: '岑鬼鬼音乐API (meting)', value: 'meting1' },
-  { label: '祈杰音乐源 (meting)', value: 'meting2' },
-  { label: 'injahow(meting)', value: 'meting3' },
-  { label: '云海花瑶(meting)', value: 'meting4' },
+  { label: 'Meting API (网易云)', value: 'meting-netease' },
+  { label: 'Meting API (QQ音乐)', value: 'meting-tencent' },
+  { label: 'Meting API (酷狗)', value: 'meting-kugou' },
+  { label: 'Meting API (酷我)', value: 'meting-kuwo' },
+  { label: 'Meting API (百度)', value: 'meting-baidu' },
 ])
 
 const selectedSource = ref('pyncmd'); const selectedQuality = ref(320);

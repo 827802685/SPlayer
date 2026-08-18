@@ -2,6 +2,7 @@ import { Howl, Howler } from "howler";
 import { musicData, siteStatus, siteSettings } from "@/stores";
 import { getSongUrl, getSongLyric, songScrobble, getMusicNumUrlNew, getSongLyricLegacy, getSongTTML } from "@/api/song";
 import { checkPlatform, getLocalCoverData, getBlobUrlFromUrl } from "@/utils/helper";
+import { getMetingPlayUrl, hasMetingConfig } from "@/utils/meting";
 import { decode as base642Buffer } from "@/utils/base64";
 import { getSongPlayTime } from "@/utils/time.ts";
 import { getCoverGradient } from "@/utils/cover-color";
@@ -259,6 +260,23 @@ const getFromUnblockMusic = async (data, status, playNow) => {
     } catch (error) {
       console.log("getMusicNumUrl失败：", error);
     };
+    // 网易云解灰失败时, 尝试 meting API
+    if (!musicUrl && hasMetingConfig()) {
+      console.info("🎵 尝试使用 meting API 解灰：", data);
+      const metingServers = ["netease", "tencent", "kugou", "kuwo", "baidu"];
+      for (const server of metingServers) {
+        try {
+          const metingUrl = await getMetingPlayUrl(server, data.id);
+          if (metingUrl) {
+            musicUrl = metingUrl;
+            console.info(`✅ meting 解灰成功 (${server}):`, musicUrl);
+            break;
+          }
+        } catch (error) {
+          console.log(`meting 解灰失败 (${server})：`, error);
+        }
+      }
+    }
     console.log(musicUrl);
     if (musicUrl) {
       // 将 http 替换为 https
