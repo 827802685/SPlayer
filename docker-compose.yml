@@ -2,11 +2,24 @@ services:
   SPlayer:
     build:
       context: .
-    image: splayer
+      dockerfile: Dockerfile
+    image: splayer:latest
     container_name: SPlayer
+    ports:
+      - "7899:7899"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - LOG_LEVEL=warn
+      - SESSION_TTL_MS=86400000
+      - MAX_SESSIONS=10000
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
-    ports:
-      - 7899:7899
-    restart: always
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:7899/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
