@@ -8,12 +8,16 @@
       "destination": "/index.html"
     },
     {
-      "source": "/api/:apiurl*",
-      "destination": "https://music-api.focalors.ltd/:apiurl*"
+      "source": "/api/health",
+      "destination": "https://splayer-api.workers.dev/api/health"
     },
     {
-      "source": "/api/ttml/:ttmlurl*",
-      "destination": "https://lyrics.focalors.ltd/:ttmlurl*"
+      "source": "/api/login/*",
+      "destination": "https://splayer-api.workers.dev/api/login/*"
+    },
+    {
+      "source": "/api/*",
+      "destination": "https://splayer-api.workers.dev/api/*"
     }
   ]
 }

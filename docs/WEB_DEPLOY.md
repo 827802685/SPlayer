@@ -195,12 +195,15 @@ A: 支持。每个用户通过独立的 Session 隔离 Cookie，互不干扰。
 
 ```
 SPlayer/
-├── server/                    # 后端 API 服务
+├── server/                    # Node.js 后端（Docker/VPS 部署）
 │   ├── index.js              # Express 主服务器
 │   ├── crypto.js             # WEAPI/EAPI 加密算法
 │   ├── login.js              # QR 码登录处理器
 │   ├── package.json          # 服务端依赖
 │   └── README.md             # 详细文档
+├── cloudflare/                # Cloudflare Workers 后端（零依赖）
+│   ├── worker.js             # 完整 Worker 脚本（内联 Crypto，无需 npm）
+│   └── wrangler.toml         # Wrangler 配置文件
 ├── electron/                  # Electron 桌面端代码
 ├── src/                       # Vue 前端代码
 ├── Dockerfile                 # Docker 构建文件
@@ -209,3 +212,83 @@ SPlayer/
 ├── .env.example               # 环境变量示例
 └── package.json               # 项目根配置
 ```
+
+---
+
+## Cloudflare Workers 部署（推荐 · 零成本）
+
+无需服务器，无需域名，免费套餐即可运行。使用 Web Crypto API 内联加密，**零 npm 依赖**。
+
+### 前置条件
+
+- Cloudflare 账号（免费注册）
+- Wrangler CLI：`npm install -g wrangler`
+- 一个域名（可选，用默认 `*.workers.dev` 子域名也行）
+
+### 一键部署
+
+```bash
+# 1. 登录 Cloudflare
+wrangler login
+
+# 2. 进入 cloudflare 目录并部署
+cd cloudflare
+wrangler deploy
+```
+
+部署成功后会输出类似：
+```
+ https://splayer-api.xxx.workers.dev
+```
+
+### 绑定自定义域名（可选）
+
+编辑 `cloudflare/wrangler.toml`，取消注释并修改：
+
+```toml
+routes = [
+  { pattern = "api.yourdomain.com/*", zone_name = "yourdomain.com" }
+]
+```
+
+然后在 Cloudflare Dashboard → Your Domain → DNS 添加一条 CNAME 记录：
+```
+api.yourdomain.com  →  splayer-api.xxx.workers.dev
+```
+
+### 前端配置
+
+在 SPlayer 的 `.env` 中设置：
+
+```env
+RENDERER_VITE_SERVER_URL = "https://splayer-api.xxx.workers.dev/api"
+```
+
+或者使用同域名（把 worker 部署到和你的静态页面同一个域名下）：
+
+```env
+RENDERER_VITE_SERVER_URL = "/api"
+```
+
+### 免费额度
+
+| 项目 | 免费额度 |
+|---|---|
+| 每日请求 | 100,000 次 |
+| 每日计算时间 | 10 分钟 |
+| 并发请求 | ~50 |
+
+个人使用完全够用。
+
+---
+
+## 与 Mineradio-Bridge 的对照
+
+| 功能 | Mineradio-Bridge (Chrome 扩展) | SPlayer Web Backend |
+|---|---|---|
+| **Cookie 来源** | `chrome.cookies.getAll()` 读取浏览器已登录 Cookie | 用户通过 QR 码登录后，Cookie 存于 Session |
+| **API 代理** | Service Worker → `fetch()` | Express → `fetch()` 到 `music.163.com` |
+| **加密算法** | WEAPI/EAPI (crypto-es) | WEAPI/EAPI (crypto-js / 内联 Web Crypto) |
+| **多账号支持** | 每个浏览器标签独立 Cookie | 每个 Session 独立 Cookie（基于客户端 ID 或 IP） |
+| **登录方式** | 依赖用户在 music.163.com 已登录 | 内置 QR 码登录（EAPI） |
+| **部署方式** | Chrome Web Store 扩展 | Docker / VPS / **Cloudflare Workers** |
